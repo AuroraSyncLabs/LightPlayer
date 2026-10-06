@@ -1,0 +1,143 @@
+menu "Light player"
+
+menu "Light control"
+
+choice LIGHT_PLAYER_DEFAULT_MIX_POLICY
+    prompt "Default global light mixing policy"
+    default LIGHT_PLAYER_DEFAULT_MIX_POLICY_COLOR_ACCURATE
+
+config LIGHT_PLAYER_DEFAULT_MIX_POLICY_COLOR_ACCURATE
+    bool "Color accurate"
+
+config LIGHT_PLAYER_DEFAULT_MIX_POLICY_MAX_BRIGHTNESS
+    bool "Maximum brightness"
+
+endchoice
+
+config LIGHT_PLAYER_RGB_RED_GAIN
+    int "RGB strip red PWM output gain"
+    default 1000
+    range 1 10000
+    help
+      Relative gain for the RGB strip red physical output. 1000 means nominal.
+
+config LIGHT_PLAYER_RGB_GREEN_GAIN
+    int "RGB strip green PWM output gain"
+    default 1000
+    range 1 10000
+    help
+      Relative gain for the RGB strip green physical output. 1000 means nominal.
+
+config LIGHT_PLAYER_RGB_BLUE_GAIN
+    int "RGB strip blue PWM output gain"
+    default 1000
+    range 1 10000
+    help
+      Relative gain for the RGB strip blue physical output. 1000 means nominal.
+
+config LIGHT_PLAYER_FLAMEWARM_GAIN
+    int "FlameWarm PWM output gain"
+    default 1000
+    range 1 10000
+    help
+      Relative gain for the FlameWarm single-channel physical output. 1000 means nominal.
+
+config LIGHT_PLAYER_SKYBLUE_GAIN
+    int "SkyBlue PWM output gain"
+    default 1000
+    range 1 10000
+    help
+      Relative gain for the SkyBlue single-channel physical output. 1000 means nominal.
+
+config LIGHT_PLAYER_RED_LUMINOUS_WEIGHT
+    int "Measured red relative photopic brightness [reference]"
+    default 436
+    range 1 10000
+    help
+      Manufacturer red luminous flux relative to green. The report lists
+      red=543.36 lm and green=1246.73 lm, so red is 436/1000 of green.
+      This is reference photometric data; RGB dimming preserves channel ratios
+      instead of inverting this value into PWM demand.
+
+config LIGHT_PLAYER_GREEN_LUMINOUS_WEIGHT
+    int "Measured green relative photopic brightness [reference]"
+    default 1000
+    range 1 10000
+    help
+      Manufacturer green luminous flux reference. The report lists green
+      output as 1246.73 lm.
+
+config LIGHT_PLAYER_BLUE_LUMINOUS_WEIGHT
+    int "Measured blue relative photopic brightness [reference]"
+    default 266
+    range 1 10000
+    help
+      Manufacturer blue luminous flux relative to green. The report lists
+      blue=331.60 lm and green=1246.73 lm, so blue is 266/1000 of green.
+      This is reference photometric data; RGB dimming preserves channel ratios
+      instead of inverting this value into PWM demand.
+
+config LIGHT_PLAYER_RED_PEAK_NM
+    int "Measured red peak wavelength [Currently unused]"
+    default 629
+    range 1 1000
+
+config LIGHT_PLAYER_GREEN_PEAK_NM
+    int "Measured green peak wavelength [Currently unused]"
+    default 514
+    range 1 1000
+
+config LIGHT_PLAYER_BLUE_PEAK_NM
+    int "Measured blue peak wavelength [Currently unused]"
+    default 460
+    range 1 1000
+
+config LIGHT_PLAYER_RED_FWHM_NM
+    int "Measured red FWHM [Currently unused]"
+    default 16
+    range 1 1000
+
+config LIGHT_PLAYER_GREEN_FWHM_NM
+    int "Measured green FWHM [Currently unused]"
+    default 30
+    range 1 1000
+
+config LIGHT_PLAYER_BLUE_FWHM_NM
+    int "Measured blue FWHM [Currently unused]"
+    default 19
+    range 1 1000
+
+endmenu
+
+menu "PWM (LEDC) outputs"
+
+config LIGHT_PLAYER_PWM_FREQ_HZ
+    int "PWM frequency in Hz"
+    default 4000
+    range 100 20000
+    help
+      LEDC PWM frequency for all LED channels.
+
+config LIGHT_PLAYER_PWM_GPIO_RGB_RED
+    int "RGB red LEDC GPIO"
+    default 15
+
+config LIGHT_PLAYER_PWM_GPIO_RGB_GREEN
+    int "RGB green LEDC GPIO"
+    default 16
+
+config LIGHT_PLAYER_PWM_GPIO_RGB_BLUE
+    int "RGB blue LEDC GPIO"
+    default 17
+
+config LIGHT_PLAYER_PWM_GPIO_FLAME_WARM
+    int "FlameWarm LEDC GPIO"
+    default 19
+
+config LIGHT_PLAYER_PWM_GPIO_SKY_BLUE
+    int "SkyBlue LEDC GPIO"
+    default 20
+
+endmenu
+
+endmenu
