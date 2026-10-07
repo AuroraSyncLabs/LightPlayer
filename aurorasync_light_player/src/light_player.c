@@ -16,7 +16,7 @@ static const char *TAG = "LightPlayer";
 
 #define LOG_INF(...) ESP_LOGI(TAG, __VA_ARGS__)
 
-/** The player runs at 10 updates/s, fast enough for a fade the eye reads as smooth. */
+/** The player runs at 100 updates/s, fast enough for a fade the eye reads as smooth. */
 #define LIGHT_PLAYER_UPDATE_INTERVAL_US (10 * 1000)
 
 #define GET_MONOTONIC_MS (esp_timer_get_time() / 1000)

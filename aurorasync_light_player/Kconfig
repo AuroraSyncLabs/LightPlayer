@@ -120,23 +120,23 @@ config LIGHT_PLAYER_PWM_FREQ_HZ
 
 config LIGHT_PLAYER_PWM_GPIO_RGB_RED
     int "RGB red LEDC GPIO"
-    default 15
+    default 14
 
 config LIGHT_PLAYER_PWM_GPIO_RGB_GREEN
     int "RGB green LEDC GPIO"
-    default 16
+    default 15
 
 config LIGHT_PLAYER_PWM_GPIO_RGB_BLUE
     int "RGB blue LEDC GPIO"
-    default 17
+    default 16
 
 config LIGHT_PLAYER_PWM_GPIO_FLAME_WARM
     int "FlameWarm LEDC GPIO"
-    default 19
+    default 17
 
 config LIGHT_PLAYER_PWM_GPIO_SKY_BLUE
     int "SkyBlue LEDC GPIO"
-    default 20
+    default 19
 
 endmenu
 
