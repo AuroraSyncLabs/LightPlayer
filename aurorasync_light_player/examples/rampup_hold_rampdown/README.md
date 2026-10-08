@@ -51,7 +51,7 @@ idf.py --preview build flash monitor
 ## Expected output
 
 ```
-Ramp-up Hold Ramp-down Exemple!
+Ramp-up Hold Ramp-down Example!
 Wait 5000ms until it finishes.
 Restarting now.
 ```
