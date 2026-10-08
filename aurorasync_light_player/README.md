@@ -35,29 +35,25 @@ This repository contains the official AuroraSync Light Player Component, used ac
     idf.py --preview build flash
     ```
 
-### Try the library
+### Try the component
 
 1. Clone the project.
     ```bash
     git clone git@github.com:AuroraSyncLabs/LightPlayer.git
     ```
-2. Create a directory and navigate into.
+2. Navigate into an example.
     ```bash
-    mkdir MyProject && cd MyProject
+    cd LightPlayer/aurorasync_light_player/examples/basic_blink
     ```
-3. Copy the exemple.
-    ```bash
-    cp -r ../LightPlayer/examples/basic_blink .
-    ```
-4. Source the SDK environment (fish command).
+3. Source the SDK environment (fish command).
     ```bash
     . /path/to/.espressif/v6.1/esp-idf/export.fish
     ```
-5. Set target.
+4. Set target.
     ```bash
     idf.py --preview set-target esp32s31
     ```
-6. Build and flash.
+5. Build and flash.
     ```bash
     idf.py --preview build flash
     ```
