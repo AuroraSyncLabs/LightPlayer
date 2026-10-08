@@ -11,8 +11,7 @@ any animation.
 
 ## Demo
 
-<!-- TODO: replace this placeholder with the demo video link or embed. -->
-> **Video coming soon.**
+https://github.com/user-attachments/assets/915d31ee-7af1-4be0-b5a7-915fb8bea987
 
 ## What it shows
 
