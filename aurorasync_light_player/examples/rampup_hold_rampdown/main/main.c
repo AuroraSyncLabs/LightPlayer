@@ -2,7 +2,7 @@
 ** Julien ROIRON, 2026
 ** main.c
 ** File description:
-** Source file containing the main entry of the exemple.
+** Source file containing the main entry of the example.
 */
 
 #include <stdio.h>
@@ -33,7 +33,7 @@ void app_main(void)
     light_state_t light_state_red = { 0 };
     int64_t now;
 
-    printf("Ramp-up Hold Ramp-down Exemple!\n");
+    printf("Ramp-up Hold Ramp-down Example!\n");
 
     // Initialize PWM module.
     if (led_pwm_init() < 0)

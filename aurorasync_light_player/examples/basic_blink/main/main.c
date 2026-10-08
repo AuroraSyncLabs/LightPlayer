@@ -2,7 +2,7 @@
 ** Julien ROIRON, 2026
 ** main.c
 ** File description:
-** Source file containing the main entry of the exemple.
+** Source file containing the main entry of the example.
 */
 
 #include <stdio.h>
@@ -18,7 +18,7 @@ void app_main(void)
 {
     light_state_t light_state;
 
-    printf("Basic blink Exemple!\n");
+    printf("Basic blink Example!\n");
 
     // Initialize PWM module.
     led_pwm_init();

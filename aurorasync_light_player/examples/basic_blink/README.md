@@ -48,7 +48,7 @@ idf.py --preview build flash monitor
 ## Expected output
 
 ```
-Basic blink Exemple!
+Basic blink Example!
 Keep it on for 1 sec.
 Keep it off for 1 sec.
 Keep it on for 1 sec.
