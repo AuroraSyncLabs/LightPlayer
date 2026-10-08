@@ -38,6 +38,22 @@ Open an issue using the **Feature request** template (`.github/ISSUE_TEMPLATE/fe
 The title is prefixed with `[FEATURE]` and the `enhancement` label is applied automatically.
 Describe the problem, the solution you would like and the alternatives you considered.
 
+## Scope of contributions
+
+| Area                                                                                   | Status                                                                       |
+|----------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| Docs, examples, tests, error messages, bug fixes, new easing curves or targets         | Open                                                                         |
+| Public API (`include/lightplayer/`), Kconfig options                                   | Discuss in an issue first: changes break dependent projects                  |
+| Payload format (`LIGHT_CMD_*`, `LIGHT_STATE_*`), mixing policies, calibration defaults | Maintainers only: tied to AuroraSync's apps and LEDs, but discussion is open |
+
+A pull request is accepted when it is linked to an issue, does one thing, keeps every example building,
+was tested on hardware if it changes the light output, and updates the docs if it changes behavior.
+
+It is declined, always with a written reason, when it breaks the API or payload format without agreement,
+adds a non-ESP-IDF dependency, or mixes unrelated changes.
+
+We answer issues and pull requests within **7 days**. No answer? Mention a [maintainer](README.md#maintainers).
+
 ## Working on an issue
 
 Every change should be linked to an issue. When you pick one up:

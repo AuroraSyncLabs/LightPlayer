@@ -1,6 +1,12 @@
 # AuroraSync Light Player Component
 
-This repository contains the official AuroraSync Light Player Component, used across AuroraSync's projects.
+ESP-IDF component driving a 5-channel PWM LED fixture with eased light animations.
+See the [repository README](https://github.com/AuroraSyncLabs/LightPlayer) for its scope.
+
+## Hardware
+
+5 LED channels, one GPIO each through LEDC: RGB strip red, green and blue, FlameWarm, SkyBlue.
+The [examples](examples/) show the default wiring.
 
 ## How to use the component
 
@@ -19,7 +25,7 @@ This repository contains the official AuroraSync Light Player Component, used ac
 
 1. Navigate into your project.
     ```bash
-    cd Documents/Programming/MyProject
+    cd path/to/your_project
     ```
 2. Source the SDK environment (fish command).
     ```bash
