@@ -25,7 +25,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots/proofs to help explain your problem.
 
 **Used devices:**
- - OS: [e.g. Linux 7.2.0-cachyos-rc]
+ - Dev Board: [e.g. ESP32-S31]
 
 **Additional context**
 Add any other context about the problem here.

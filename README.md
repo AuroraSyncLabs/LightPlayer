@@ -2,59 +2,15 @@
 
 This repository contains the official AuroraSync Light Player Component, used across AuroraSync's projects.
 
-## How to use the component
+## Demonstration of examples
 
-### Pre-requisites
+https://github.com/user-attachments/assets/915d31ee-7af1-4be0-b5a7-915fb8bea987
+> Simple blink example
 
-- IDF: A version >=5.3 of IDF SDK is required, in order to use this component into your project. 
-  - Installation instructions: https://docs.espressif.com/projects/esp-idf/en/v5.3.6/esp32/get-started/index.html#installation
-- An already existing project.
+https://github.com/user-attachments/assets/5c5981b6-0fcc-4a8b-8e39-033ddf675beb
+> Ramp-up hold and ramp-down example
 
-#### Notes
-
-- The project has been tried on the ESP32-S31 and ESP32-C6.
-- The SDK version used by the maintainers is IDF 6.1.
-
-### Add the dependency to your project
-
-1. Navigate into your project.
-    ```bash
-    cd Documents/Programming/MyProject
-    ```
-2. Source the SDK environment (fish command).
-    ```bash
-    . /path/to/.espressif/v6.1/esp-idf/export.fish
-    ```
-3. Add the dependency.
-    ```bash
-    idf.py add-dependency anabolicroo/aurorasync_light_player
-    ```
-4. Edit LIGHT_PLAYER_PWM_GPIO_* values for your usage.
-
-### Try the library
-
-1. Clone the project.
-    ```bash
-    git clone git@github.com:AuroraSyncLabs/LightPlayer.git
-    ```
-2. Create a directory and navigate into.
-    ```bash
-    mkdir MyProject && cd MyProject
-    ```
-3. Copy the exemple.
-    ```bash
-    cp -r ../LightPlayer/examples/get-started/hello_world .
-    ```
-4. Source the SDK environment (fish command).
-    ```bash
-    . /path/to/.espressif/v6.1/esp-idf/export.fish
-    ```
-5. Add the dependency.
-    ```bash
-    idf.py add-dependency anabolicroo/aurorasync_light_player
-    ```
-
-# Maintainers
+## Maintainers
 
 <div align="center">
 

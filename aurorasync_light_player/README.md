@@ -30,6 +30,10 @@ This repository contains the official AuroraSync Light Player Component, used ac
     idf.py add-dependency anabolicroo/aurorasync_light_player
     ```
 4. Edit LIGHT_PLAYER_PWM_GPIO_* values for your usage.
+5. Build and flash.
+    ```bash
+    idf.py --preview build flash
+    ```
 
 ### Try the library
 
@@ -43,15 +47,19 @@ This repository contains the official AuroraSync Light Player Component, used ac
     ```
 3. Copy the exemple.
     ```bash
-    cp -r ../LightPlayer/examples/get-started/hello_world .
+    cp -r ../LightPlayer/examples/basic_blink .
     ```
 4. Source the SDK environment (fish command).
     ```bash
     . /path/to/.espressif/v6.1/esp-idf/export.fish
     ```
-5. Add the dependency.
+5. Set target.
     ```bash
-    idf.py add-dependency anabolicroo/aurorasync_light_player
+    idf.py --preview set-target esp32s31
+    ```
+6. Build and flash.
+    ```bash
+    idf.py --preview build flash
     ```
 
 # Maintainers
