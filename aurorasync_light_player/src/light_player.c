@@ -1,3 +1,5 @@
+// File: aurorasync_light_player/src/light_player.c (Size: 1527 bytes, SHA: 93b3f73288f5fc3aac4a0123e7ff2284c9398007)
+
 /*
 ** Julien ROIRON, 2026
 ** light_player.c
@@ -55,11 +57,21 @@ void light_player_module_init(light_player_step_fn_t step)
 
 void light_player_schedule(void)
 {
+    if (light_player_timer == NULL)
+    {
+        ESP_LOGE(TAG, "light_player_schedule() called before light_player_module_init()");
+        return;
+    }
     esp_timer_stop(light_player_timer);
     esp_timer_start_once(light_player_timer, 0);
 }
 
 void light_player_cancel(void)
 {
+    if (light_player_timer == NULL)
+    {
+        ESP_LOGE(TAG, "light_player_cancel() called before light_player_module_init()");
+        return;
+    }
     esp_timer_stop(light_player_timer);
 }
