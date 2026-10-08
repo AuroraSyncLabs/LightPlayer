@@ -13,8 +13,7 @@ Plays a 3-second animation once, then restarts the chip and plays it again:
 
 ## Demo
 
-<!-- TODO: replace this placeholder with the demo video link or embed. -->
-> **Video coming soon.**
+https://github.com/user-attachments/assets/5c5981b6-0fcc-4a8b-8e39-033ddf675beb
 
 ## What it shows
 
