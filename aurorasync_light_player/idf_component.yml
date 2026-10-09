@@ -16,3 +16,5 @@ files:
     - ".git/**/*"
     - ".github/**/*"
     - "dependencies.lock"
+    - "test_apps/**/*"
+    - "pytest.ini"
