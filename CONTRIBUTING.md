@@ -13,7 +13,7 @@ This repository holds a single ESP-IDF component, published on the
 | `aurorasync_light_player/examples/` | Example projects using the component           |
 | `aurorasync_light_player/Kconfig`   | Component configuration (`LIGHT_PLAYER_*`)     |
 
-Toolchain: ESP-IDF >= 5.3 (the maintainers use ESP-IDF v6.1).
+Toolchain: ESP-IDF >= 6.1.
 
 ## Reporting a bug
 
@@ -56,11 +56,22 @@ We answer issues and pull requests within **7 days**. No answer? Mention a [main
 
 ## Working on an issue
 
-Every change should be linked to an issue. When you pick one up:
+Every change should be linked to an issue.
 
-1. Assign yourself to it.
-2. Set its **size** (see below).
-3. Create a branch from `main`.
+### External contributors
+
+1. Comment on the issue to say you are taking it. A maintainer assigns it to you.
+   With no activity for 14 days, the issue is open to others again.
+2. Fork the repository and create a branch from `main` (see [Branches](#branches)).
+3. Open a pull request from your fork against `main` (see [Pull requests](#pull-requests)).
+
+New here? Start with a [`good first issue`](https://github.com/AuroraSyncLabs/LightPlayer/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+
+### Maintainers
+
+1. Assign yourself to the issue and set its **size** (see below).
+   Maintainers also size the issues opened by external contributors.
+2. Create a branch in this repository from `main` (see [Branches](#branches)).
 
 ### Issue size
 
@@ -111,7 +122,7 @@ docs(readme): update installation instructions
 
 ## Building and testing
 
-Source the ESP-IDF environment first, e.g. with fish:
+Source the ESP-IDF environment first (`export.sh` for bash and zsh):
 
 ```shell
 . /path/to/.espressif/v6.1/esp-idf/export.fish
@@ -121,9 +132,8 @@ The component is built through its examples, which point to the local sources
 with `override_path`. From an example directory, e.g. `aurorasync_light_player/examples/basic_blink/`:
 
 ```shell
-idf.py set-target esp32s31
-idf.py build
-idf.py flash monitor
+idf.py --preview set-target esp32s31
+idf.py --preview build flash monitor
 ```
 
 Make sure every example still builds when you change the component, and add or update
@@ -164,7 +174,8 @@ idf-ci build run -p test_apps -t esp32c6 -m generic && pytest -m generic --targe
    - how it was tested, with reproduction steps and the boards used,
    - the checklist,
    - screenshots, captures or a demo for any visible light behavior change.
-3. Get at least one review from another team member and address the feedback.
+3. A maintainer reviews it and you address the feedback. Every pull request needs one approving
+   review from a maintainer and green CI.
 
 ## Definition of Done
 

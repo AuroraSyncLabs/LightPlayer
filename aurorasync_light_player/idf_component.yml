@@ -3,8 +3,9 @@ dependencies:
   ## Required IDF version
   ## For esp_driver_ledc, idf version must be >= 5.3
   ## https://github.com/espressif/esp-idf/blob/ce2100de51a4d9a372f26578fd2ee763ca4b1279/docs/en/migration-guides/release-5.x/5.3/peripherals.rst#L27
+  ## For CI the only version tested is 6.1
   idf:
-    version: ">=5.3"
+    version: ">=6.1"
 description: AuroraSync's Light Player Component
 repository: https://github.com/AuroraSyncLabs/LightPlayer.git
 url: https://github.com/AuroraSyncLabs/LightPlayer

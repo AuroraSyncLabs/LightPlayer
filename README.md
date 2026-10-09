@@ -14,7 +14,7 @@ animations. Published on the [ESP Component Registry](https://components.espress
 
 - Communication stack: sending and receiving payloads is up to your application.
 - Addressable LEDs, other channel layouts, several players at once.
-- Frameworks other than ESP-IDF >= 5.3.
+- Frameworks other than ESP-IDF >= 6.1.
 
 ## Demonstration of examples
 
