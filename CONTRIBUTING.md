@@ -129,6 +129,31 @@ idf.py flash monitor
 Make sure every example still builds when you change the component, and add or update
 an example when you add a feature.
 
+### Checks
+
+CI runs on every pull request (`.github/workflows/ci.yml`): formatting, `idf.py clang-check`,
+unit tests on QEMU and the example builds. From `aurorasync_light_player/`:
+
+```shell
+# Formatting, pinned version through uv (https://docs.astral.sh/uv/)
+git ls-files '*.c' '*.h' | xargs uvx clang-format==23.1.1 --style=file -i
+# Static analysis (needs `idf_tools.py install esp-clang`), findings in warnings.txt
+cd examples/rampup_hold_rampdown && IDF_TOOLCHAIN=clang idf.py set-target esp32c6 \
+  && idf.py clang-check --include-paths "$(realpath ../..)" \
+     --run-clang-tidy-options "-header-filter=aurorasync_light_player/"
+```
+
+Unit tests live in `test/test_<module>.c` (`TEST_CASE("<behavior>", "[<module>]")`) and run
+through `test_apps/` with [pytest](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/esp-idf-tests-with-pytest.html)
+(`install.sh --enable-ci`, plus `idf_tools.py install qemu-riscv32` for QEMU). A bug fix comes with a test.
+
+```shell
+# QEMU, as in CI
+idf-ci build run -p test_apps -t esp32c3 -m qemu && pytest -m qemu --target esp32c3
+# Board
+idf-ci build run -p test_apps -t esp32c6 -m generic && pytest -m generic --target esp32c6
+```
+
 ## Pull requests
 
 1. Open the pull request against `main`.
