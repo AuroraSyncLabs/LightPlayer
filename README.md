@@ -1,5 +1,7 @@
 # AuroraSync Light Player Component
 
+[![CI](https://github.com/AuroraSyncLabs/LightPlayer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/AuroraSyncLabs/LightPlayer/actions/workflows/ci.yml)
+
 ESP-IDF component driving a 5-channel PWM LED fixture (RGB strip, FlameWarm, SkyBlue) with eased light
 animations. Published on the [ESP Component Registry](https://components.espressif.com/components/aurorasynclabs/aurorasync_light_player).
 
