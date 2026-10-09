@@ -4,7 +4,7 @@ Thanks for taking the time to contribute! This guide explains how to report issu
 propose changes and get them merged.
 
 This repository holds a single ESP-IDF component, published on the
-[ESP Component Registry](https://components.espressif.com/) as `anabolicroo/aurorasync_light_player`:
+[ESP Component Registry](https://components.espressif.com/) as `aurorasynclabs/aurorasync_light_player`:
 
 | Directory                           | Content                                        |
 |-------------------------------------|------------------------------------------------|

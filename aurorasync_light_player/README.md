@@ -35,7 +35,7 @@ The [examples](examples/) show the default wiring.
     ```
 3. Add the dependency.
     ```bash
-    idf.py add-dependency anabolicroo/aurorasync_light_player
+    idf.py add-dependency aurorasynclabs/aurorasync_light_player
     ```
 4. Edit LIGHT_PLAYER_PWM_GPIO_* values for your usage.
 5. Build and flash.
