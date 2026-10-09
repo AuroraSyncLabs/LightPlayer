@@ -45,7 +45,7 @@ The [examples](examples/) show the default wiring.
 
 1. Clone the project.
     ```bash
-    git clone git@github.com:AuroraSyncLabs/LightPlayer.git
+    git clone https://github.com/AuroraSyncLabs/LightPlayer.git
     ```
 2. Navigate into an example.
     ```bash
