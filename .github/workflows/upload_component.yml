@@ -13,4 +13,4 @@ jobs:
       - uses: espressif/upload-components-ci-action@v2
         with:
           components: "aurorasync_light_player: aurorasync_light_player"
-          namespace: "anabolicroo"
+          namespace: "aurorasynclabs"

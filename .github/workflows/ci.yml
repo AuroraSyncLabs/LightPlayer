@@ -1,0 +1,90 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  format:
+    name: Format (clang-format)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - name: Check formatting
+        working-directory: aurorasync_light_player
+        run: git ls-files '*.c' '*.h' | xargs uvx clang-format==23.1.1 --style=file --dry-run -Werror
+
+  static-analysis:
+    name: Static analysis (clang-tidy)
+    runs-on: ubuntu-24.04
+    container: espressif/idf:v6.1
+    env:
+      IDF_TOOLCHAIN: clang
+      # Findings allowed, from the baseline in docs/quality/. Lower it when you fix some.
+      MAX_WARNINGS: 13
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run idf.py clang-check
+        shell: bash
+        working-directory: aurorasync_light_player/examples/rampup_hold_rampdown
+        run: |
+          $IDF_PATH/tools/idf_tools.py install esp-clang
+          . $IDF_PATH/export.sh
+          idf.py set-target esp32c6
+          idf.py clang-check --exit-code --include-paths "$(realpath ../..)" \
+            --run-clang-tidy-options "-header-filter=aurorasync_light_player/"
+          count=$(grep -cE ': (warning|error): .*\[' warnings.txt || true)
+          grep -E ': (warning|error): .*\[' warnings.txt || true
+          echo "clang-tidy findings: $count (max $MAX_WARNINGS)"
+          test "$count" -le "$MAX_WARNINGS"
+
+  test:
+    name: Unit tests (QEMU esp32c3)
+    runs-on: ubuntu-24.04
+    container: espressif/idf:v6.1
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - name: Install the ESP-IDF CI requirements
+        shell: bash
+        run: |
+          . $IDF_PATH/export.sh
+          uv pip install --python "$(command -v python)" \
+            -r $IDF_PATH/tools/requirements/requirements.ci.txt \
+            -c $IDF_TOOLS_PATH/espidf.constraints.v6.1.txt
+      - name: Build the test app
+        shell: bash
+        working-directory: aurorasync_light_player
+        run: |
+          . $IDF_PATH/export.sh
+          idf-ci build run -p test_apps -t esp32c3 -m qemu
+      - name: Run the tests
+        shell: bash
+        working-directory: aurorasync_light_player
+        # QEMU emulates esp32, esp32c3 and esp32s3 only.
+        run: |
+          . $IDF_PATH/export.sh
+          pytest -m qemu --target esp32c3 --junitxml=report.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-report
+          path: aurorasync_light_player/report.xml
+
+  build:
+    name: Build ${{ matrix.example }} (IDF ${{ matrix.idf }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [basic_blink, rampup_hold_rampdown]
+        idf: [v6.1]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: ${{ matrix.idf }}
+          target: esp32c6
+          path: aurorasync_light_player/examples/${{ matrix.example }}

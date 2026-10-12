@@ -1,0 +1,5 @@
+dependencies:
+  idf:
+    version: ">=6.1"
+  aurorasync_light_player:
+    override_path: ../..

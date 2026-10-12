@@ -203,8 +203,8 @@ static void mix_per_strip(const light_state_t *state, led_pwm_level_t levels[LED
         rgb_pwm(state->rgb_strip.r, state->rgb_strip.brightness, CONFIG_LIGHT_PLAYER_RGB_RED_GAIN);
     levels[LED_PWM_CHANNEL_RGB_GREEN] = rgb_pwm(state->rgb_strip.g, state->rgb_strip.brightness,
                                                 CONFIG_LIGHT_PLAYER_RGB_GREEN_GAIN);
-    levels[LED_PWM_CHANNEL_RGB_BLUE] = rgb_pwm(state->rgb_strip.b, state->rgb_strip.brightness,
-                                               CONFIG_LIGHT_PLAYER_RGB_BLUE_GAIN);
+    levels[LED_PWM_CHANNEL_RGB_BLUE] =
+        rgb_pwm(state->rgb_strip.b, state->rgb_strip.brightness, CONFIG_LIGHT_PLAYER_RGB_BLUE_GAIN);
     levels[LED_PWM_CHANNEL_FLAME_WARM] =
         single_pwm(state->flamewarm_brightness, CONFIG_LIGHT_PLAYER_FLAMEWARM_GAIN);
     levels[LED_PWM_CHANNEL_SKY_BLUE] =
@@ -263,8 +263,7 @@ static void mix_global_color_accurate(const light_state_t *state,
 
     levels[LED_PWM_CHANNEL_RGB_RED] =
         level_to_pwm(add_linear(red_base, rgb_red_boost), CONFIG_LIGHT_PLAYER_RGB_RED_GAIN);
-    levels[LED_PWM_CHANNEL_RGB_GREEN] =
-        level_to_pwm(raw_green, CONFIG_LIGHT_PLAYER_RGB_GREEN_GAIN);
+    levels[LED_PWM_CHANNEL_RGB_GREEN] = level_to_pwm(raw_green, CONFIG_LIGHT_PLAYER_RGB_GREEN_GAIN);
     levels[LED_PWM_CHANNEL_RGB_BLUE] =
         level_to_pwm(add_linear(blue_base, rgb_blue_boost), CONFIG_LIGHT_PLAYER_RGB_BLUE_GAIN);
     levels[LED_PWM_CHANNEL_FLAME_WARM] =

@@ -5,9 +5,9 @@
 ** Source file containing the main entry of the exemple.
 */
 
-#include <stdio.h>
-#include <inttypes.h>
 #include <esp_system.h>
+#include <inttypes.h>
+#include <stdio.h>
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
