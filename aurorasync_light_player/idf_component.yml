@@ -9,7 +9,7 @@ dependencies:
 description: AuroraSync's Light Player Component
 repository: https://github.com/AuroraSyncLabs/LightPlayer.git
 url: https://github.com/AuroraSyncLabs/LightPlayer
-version: "1.0.0"
+version: "2.0.0"
 license: "MPL-2.0"
 files:
   use_gitignore: true
