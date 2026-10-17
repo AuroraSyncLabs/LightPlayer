@@ -95,6 +95,25 @@ int light_seq_start(light_player_t *player, const light_seq_t *sequence,
                     const light_state_t *current, int64_t now_ms);
 
 /**
+ * @brief Load a sequence into a player and arm it from an output frame.
+ *
+ * Same as light_seq_start(), except the first segment eases out of the given
+ * frame rather than out of the rendered current state. A controller taking the
+ * light over mid-sequence passes the frame still on the outputs, so the light
+ * never jumps.
+ *
+ * @param player Player to arm.
+ * @param sequence Sequence to play.
+ * @param current The light state the sequence starts from, the rollback origin.
+ * @param from The frame the first segment eases out of.
+ * @param now_ms Current timestamp in milliseconds.
+ * @return 0 on success, negative errno on failure
+ */
+int light_seq_start_from_frame(light_player_t *player, const light_seq_t *sequence,
+                               const light_state_t *current, const light_output_frame_t *from,
+                               int64_t now_ms);
+
+/**
  * @brief Execute one player step and apply the rendered PWM frame.
  *
  * The logical light state is only updated on segment boundaries, so a caller

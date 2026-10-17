@@ -175,6 +175,26 @@ int light_seq_start(light_player_t *player, const light_seq_t *sequence,
     return 0;
 }
 
+int light_seq_start_from_frame(light_player_t *player, const light_seq_t *sequence,
+                               const light_state_t *current, const light_output_frame_t *from,
+                               int64_t now_ms)
+{
+    int err;
+
+    if (from == NULL)
+    {
+        return -EINVAL;
+    }
+    err = light_seq_start(player, sequence, current, now_ms);
+    if (err != 0)
+    {
+        return err;
+    }
+    player->origin_frame = *from;
+    player->current_frame = *from;
+    return 0;
+}
+
 /**
  * @brief Finish the sequence and rest on the state of its last segment.
  *
