@@ -105,6 +105,29 @@ TEST_CASE("linear segment is halfway at mid duration", "[light_sequence]")
     TEST_ASSERT_FALSE(active.master_on);
 }
 
+TEST_CASE("start from frame rejects a NULL frame", "[light_sequence]")
+{
+    light_seq_t seq = one_segment_to_red(1000);
+
+    TEST_ASSERT_EQUAL_INT(-EINVAL, light_seq_start_from_frame(&player, &seq, &off, NULL, 0));
+    TEST_ASSERT_FALSE(light_seq_is_active(&player));
+}
+
+TEST_CASE("start from frame eases out of the given frame", "[light_sequence]")
+{
+    light_seq_t seq = one_segment_to_red(1000);
+    light_output_frame_t target;
+    light_output_frame_t from;
+
+    TEST_ASSERT_EQUAL_INT(0, light_control_render(&red, &target));
+    from = target;
+    from.levels[LED_PWM_CHANNEL_RGB_RED] = 0;
+    TEST_ASSERT_EQUAL_INT(0, light_seq_start_from_frame(&player, &seq, &red, &from, 0));
+    TEST_ASSERT_TRUE(light_seq_step(&player, 500, &active));
+    TEST_ASSERT_UINT16_WITHIN(1, target.levels[LED_PWM_CHANNEL_RGB_RED] / 2,
+                              player.current_frame.levels[LED_PWM_CHANNEL_RGB_RED]);
+}
+
 TEST_CASE("rollback stop restores the origin", "[light_sequence]")
 {
     light_seq_t seq = one_segment_to_red(1000);
