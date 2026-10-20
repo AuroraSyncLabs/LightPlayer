@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <sdkconfig.h>
+
 #include <lightplayer/led_pwm.h>
 #include <lightplayer/light_control.h>
 
