@@ -110,6 +110,7 @@ config LIGHT_PLAYER_BLUE_FWHM_NM
 endmenu
 
 menu "PWM (LEDC) outputs"
+    depends on !IDF_TARGET_LINUX
 
 config LIGHT_PLAYER_PWM_FREQ_HZ
     int "PWM frequency in Hz"
