@@ -45,6 +45,22 @@ The [examples](examples/) show the default wiring.
 
 `--preview` is only needed for targets ESP-IDF still lists as preview, such as the ESP32-S31.
 
+### Run on the linux target
+
+The component also builds for the ESP-IDF `linux` target, to run your application on the host.
+
+- The PWM outputs are emulated: no GPIO is driven and the `PWM (LEDC) outputs` menu is hidden.
+  Read the applied levels back with `led_pwm_get_levels()`.
+- ESP-IDF only ships the `esp_timer` headers on linux. If your application uses `light_player_*`,
+  it must provide `esp_timer_create()`, `esp_timer_start_once()`, `esp_timer_stop()` and
+  `esp_timer_get_time()`, or use the ESP-IDF mock (`$IDF_PATH/tools/mocks/esp_timer`) in unit tests.
+
+```bash
+idf.py --preview set-target linux
+idf.py build
+./build/your_project.elf
+```
+
 ### Try the component
 
 1. Clone the project.

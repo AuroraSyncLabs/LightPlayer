@@ -54,6 +54,17 @@ int led_pwm_set_channel(led_pwm_channel_t channel, led_pwm_level_t level);
 int led_pwm_set_levels(const led_pwm_level_t levels[LED_PWM_CHANNEL_COUNT]);
 
 /**
+ * @brief Get the levels applied to every PWM LED channel.
+ *
+ * A level is reported once the backend accepted it, so a failed call only reports
+ * the channels it applied. Safe to call from any task.
+ *
+ * @param levels Filled with five brightness values, in the led_pwm_set_levels() order
+ * @return 0 on success, negative errno on failure
+ */
+int led_pwm_get_levels(led_pwm_level_t levels[LED_PWM_CHANNEL_COUNT]);
+
+/**
  * @brief Switch off every PWM LED channel.
  *
  * @return 0 on success, negative errno on failure

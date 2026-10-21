@@ -41,9 +41,20 @@ jobs:
           test "$count" -le "$MAX_WARNINGS"
 
   test:
-    name: Unit tests (QEMU esp32c3)
+    name: Unit tests (${{ matrix.name }})
     runs-on: ubuntu-24.04
     container: espressif/idf:v6.1
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # QEMU emulates esp32, esp32c3 and esp32s3 only.
+          - name: QEMU esp32c3
+            target: esp32c3
+            marker: qemu
+          - name: linux
+            target: linux
+            marker: host_test
     steps:
       - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v7
@@ -59,18 +70,17 @@ jobs:
         working-directory: aurorasync_light_player
         run: |
           . $IDF_PATH/export.sh
-          idf-ci build run -p test_apps -t esp32c3 -m qemu
+          idf-ci build run -p test_apps -t ${{ matrix.target }} -m ${{ matrix.marker }}
       - name: Run the tests
         shell: bash
         working-directory: aurorasync_light_player
-        # QEMU emulates esp32, esp32c3 and esp32s3 only.
         run: |
           . $IDF_PATH/export.sh
-          pytest -m qemu --target esp32c3 --junitxml=report.xml
+          pytest -m ${{ matrix.marker }} --target ${{ matrix.target }} --junitxml=report.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: unit-test-report
+          name: unit-test-report-${{ matrix.target }}
           path: aurorasync_light_player/report.xml
 
   build:

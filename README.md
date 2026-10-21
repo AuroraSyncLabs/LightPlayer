@@ -11,6 +11,7 @@ animations. Published on the [ESP Component Registry](https://components.espress
 - One color for the whole fixture, or each strip set independently.
 - Animations of up to 4 eased segments, looped N times or forever, stoppable at any time.
 - Payload helpers to control the light over BLE or any other transport.
+- Runs on the ESP-IDF `linux` target, with emulated PWM outputs.
 
 ## Out of scope
 
