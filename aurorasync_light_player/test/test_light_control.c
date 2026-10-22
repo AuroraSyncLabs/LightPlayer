@@ -58,7 +58,8 @@ TEST_CASE("commands reject incorrect lengths", "[light_control]")
     uint8_t global[] = {LIGHT_CMD_SET_GLOBAL, 1, 2, 3, 4, 5};
 
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(master, sizeof(master)));
-    TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(global_color, sizeof(global_color)));
+    TEST_ASSERT_EQUAL_INT(-EMSGSIZE,
+                      light_control_validate_command(global_color, sizeof(global_color)));
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(rgb_strip, sizeof(rgb_strip)));
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(global, sizeof(global)));
 }
