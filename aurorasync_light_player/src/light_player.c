@@ -1,5 +1,3 @@
-// File: aurorasync_light_player/src/light_player.c (Size: 1527 bytes, SHA: 93b3f73288f5fc3aac4a0123e7ff2284c9398007)
-
 /*
 ** Julien ROIRON, 2026
 ** light_player.c
