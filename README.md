@@ -39,6 +39,9 @@ idf.py add-dependency aurorasynclabs/aurorasync_light_player
 | Examples, wiring and demo      | [`aurorasync_light_player/examples/`](aurorasync_light_player/examples/)                                                         |
 | API reference                  | [`aurorasync_light_player/include/lightplayer/`](aurorasync_light_player/include/lightplayer/)                                   |
 | Contributing                   | [`CONTRIBUTING.md`](CONTRIBUTING.md)                                                                                             |
+| Scope and license              | [`docs/scope.md`](docs/scope.md), [`docs/license.md`](docs/license.md)                                                           |
+| Testing and quality            | [`docs/quality/`](docs/quality/)                                                                                                 |
+| Reproducibility test           | [`docs/reproducibility-test.md`](docs/reproducibility-test.md)                                                                   |
 | Tasks for newcomers            | [`good first issue`](https://github.com/AuroraSyncLabs/LightPlayer/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) |
 
 ## Maintainers
