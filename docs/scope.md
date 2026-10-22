@@ -1,7 +1,7 @@
 # Scope of the opening
 
 AuroraSync is a commercial smart light: a 5-channel LED fixture, its firmware and a mobile app.
-We open one component of it, the light player, and keep the rest closed.
+We open the light player as a full open-source project, publish BleOTA as-is, and keep the rest closed.
 
 ## Open: this repository
 
@@ -11,6 +11,16 @@ The `aurorasync_light_player` ESP-IDF component, with its examples, tests and CI
 - light state and color mixing (`light_control`),
 - eased animation sequences and their player (`easing`, `light_sequence`, `light_player`),
 - payload helpers to encode and decode light commands and states.
+
+## Public, maintained as-is: BleOTA
+
+[BleOTA](https://github.com/AuroraSyncLabs/BleOTA) is our fork of Espressif's `ble_ota` component, published as
+`aurorasynclabs/ble_ota` under Apache-2.0, the upstream license. AuroraSync uses it for firmware updates over BLE.
+
+It stays public, but outside this opening: issues and pull requests are read, with no promised reply time,
+no newcomer issues and no calls for contributions. Most of its code is Espressif's, which maintains the upstream
+component. Bringing it to the level of this repository (contribution guide, newcomer issues, reproducibility
+test, outreach) would cost a lot of work and add no feature to AuroraSync.
 
 ## Closed
 
