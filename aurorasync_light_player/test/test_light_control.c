@@ -63,7 +63,7 @@ TEST_CASE("policy command rejects invalid values", "[light_control]")
 TEST_CASE("commands reject incorrect lengths", "[light_control]")
 {
     uint8_t master[] = {LIGHT_CMD_SET_MASTER, 1, 2};
-    uint8_t global_color[] = {LIGHT_CMD_SET_GLOBAL_COLOR, 1, 2, 3};
+    uint8_t global_color[] = {LIGHT_CMD_SET_GLOBAL_COLOR, 1, 2};
     uint8_t rgb_strip[] = {LIGHT_CMD_SET_RGB_STRIP, 1, 2, 3};
     uint8_t global[] = {LIGHT_CMD_SET_GLOBAL, 1, 2, 3, 4, 5};
 
