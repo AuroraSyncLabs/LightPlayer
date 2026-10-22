@@ -4,10 +4,11 @@
 ** Unit tests for light control command validation
 */
 
-#include <lightplayer/light_control.h>
 #include <errno.h>
 #include <stdint.h>
 #include <unity.h>
+
+#include <lightplayer/light_control.h>
 
 TEST_CASE("empty command is rejected", "[light_control]")
 {
@@ -59,7 +60,7 @@ TEST_CASE("commands reject incorrect lengths", "[light_control]")
 
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(master, sizeof(master)));
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE,
-                      light_control_validate_command(global_color, sizeof(global_color)));
+                          light_control_validate_command(global_color, sizeof(global_color)));
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(rgb_strip, sizeof(rgb_strip)));
     TEST_ASSERT_EQUAL_INT(-EMSGSIZE, light_control_validate_command(global, sizeof(global)));
 }
