@@ -4,10 +4,10 @@
 ** Unit tests for light control command validation
 */
 
+#include <lightplayer/light_control.h>
 #include <errno.h>
 #include <stdint.h>
 #include <unity.h>
-#include <lightplayer/light_control.h>
 
 TEST_CASE("empty command is rejected", "[light_control]")
 {
