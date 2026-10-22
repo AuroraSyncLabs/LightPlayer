@@ -55,11 +55,21 @@ void light_player_module_init(light_player_step_fn_t step)
 
 void light_player_schedule(void)
 {
+    if (light_player_timer == NULL)
+    {
+        ESP_LOGE(TAG, "light_player_schedule() called before light_player_module_init()");
+        return;
+    }
     esp_timer_stop(light_player_timer);
     esp_timer_start_once(light_player_timer, 0);
 }
 
 void light_player_cancel(void)
 {
+    if (light_player_timer == NULL)
+    {
+        ESP_LOGE(TAG, "light_player_cancel() called before light_player_module_init()");
+        return;
+    }
     esp_timer_stop(light_player_timer);
 }
