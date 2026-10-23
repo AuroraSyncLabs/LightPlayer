@@ -20,9 +20,7 @@ TEST_CASE("master command accepts valid values", "[light_control]")
     uint8_t command[] = {LIGHT_CMD_SET_MASTER, 0};
 
     TEST_ASSERT_EQUAL_INT(0, light_control_validate_command(command, sizeof(command)));
-
     command[1] = 1;
-
     TEST_ASSERT_EQUAL_INT(0, light_control_validate_command(command, sizeof(command)));
 }
 
@@ -38,9 +36,7 @@ TEST_CASE("policy command accepts valid values", "[light_control]")
     uint8_t command[] = {LIGHT_CMD_SET_POLICY, 0};
 
     TEST_ASSERT_EQUAL_INT(0, light_control_validate_command(command, sizeof(command)));
-
     command[1] = LIGHT_MIX_POLICY_MAX_BRIGHTNESS;
-
     TEST_ASSERT_EQUAL_INT(0, light_control_validate_command(command, sizeof(command)));
 }
 
