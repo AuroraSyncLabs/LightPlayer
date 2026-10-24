@@ -78,7 +78,7 @@ static int32_t ease_tangent_interior(int32_t prev, int32_t next)
     {
         return 0;
     }
-    return (int32_t)((2ll * prev * next) / ((int64_t)prev + (int64_t)next));
+    return (int32_t)((2LL * prev * next) / ((int64_t)prev + (int64_t)next));
 }
 
 /**
@@ -150,9 +150,9 @@ static void ease_build_tangents(const int32_t k[EASE_KNOTS], int32_t d[EASE_SEGM
 static int64_t ease_segment_value(int32_t y, int32_t d, int32_t m0, int32_t m1, int64_t s)
 {
     /* The accumulator stays in Q16 so the three steps do not pile up rounding. */
-    int64_t acc = (int64_t)(m0 + m1 - 2 * d) << EASE_Q16_BITS;
+    int64_t acc = (int64_t)(m0 + m1 - (2 * d)) << EASE_Q16_BITS;
 
-    acc = ((int64_t)(3 * d - 2 * m0 - m1) << EASE_Q16_BITS) + ease_mul_q16(acc, s);
+    acc = ((int64_t)((3 * d) - (2 * m0) - m1) << EASE_Q16_BITS) + ease_mul_q16(acc, s);
     acc = ((int64_t)m0 << EASE_Q16_BITS) + ease_mul_q16(acc, s);
     acc = ((int64_t)y << EASE_Q16_BITS) + ease_mul_q16(acc, s);
     return (acc + (1 << (EASE_Q16_BITS - 1))) >> EASE_Q16_BITS;
