@@ -122,10 +122,20 @@ docs(readme): update installation instructions
 
 ## Building and testing
 
-Source the ESP-IDF environment first (`export.sh` for bash and zsh):
+Source the ESP-IDF environment first:
 
 ```shell
+# Bash, ZSH
+. /path/to/.espressif/v6.1/esp-idf/export.sh
+
+# Fish
 . /path/to/.espressif/v6.1/esp-idf/export.fish
+
+# Windows PowerShell
+. C:\path\to\esp-idf\export.ps1
+
+# Windows Command Prompt
+C:\path\to\esp-idf\export.bat
 ```
 
 The component is built through its examples, which point to the local sources
@@ -133,7 +143,9 @@ with `override_path`. From an example directory, e.g. `aurorasync_light_player/e
 
 ```shell
 idf.py --preview set-target esp32s31
-idf.py --preview build flash monitor
+idf.py --preview build
+# With the board connected
+idf.py --preview flash monitor
 ```
 
 Make sure every example still builds when you change the component, and add or update
