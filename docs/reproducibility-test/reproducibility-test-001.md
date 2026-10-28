@@ -9,7 +9,7 @@ One report per test. Fill in every `TODO` during the test, not afterwards.
 2. They get only the link to the repository README. No help from the team, except to unblock them
    after 15 minutes stuck; write down every time you help.
 3. Goal: run the `basic_blink` example on a board, following
-   [Try the component](../aurorasync_light_player/README.md#try-the-component).
+   [Try the component](../../aurorasync_light_player/README.md#try-the-component).
 4. Time each step. Write down every question, error and wrong guess.
 5. Fix the documentation for each blocker and link the commit below.
 
