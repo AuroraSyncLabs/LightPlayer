@@ -32,6 +32,10 @@ The [examples](examples/) show the default wiring.
     . /path/to/.espressif/v6.1/esp-idf/export.sh
     # Fish
     . /path/to/.espressif/v6.1/esp-idf/export.fish
+    # Windows PowerShell
+    . C:\path\to\esp-idf\export.ps1
+    # Windows Command Prompt
+    C:\path\to\esp-idf\export.bat
     ```
 3. Add the dependency.
     ```bash
@@ -77,6 +81,10 @@ idf.py build
     . /path/to/.espressif/v6.1/esp-idf/export.sh
     # Fish
     . /path/to/.espressif/v6.1/esp-idf/export.fish
+    # Windows PowerShell
+    . C:\path\to\esp-idf\export.ps1
+    # Windows Command Prompt
+    C:\path\to\esp-idf\export.bat
     ```
 4. Set the target, e.g. ESP32-C6, or ESP32-S31 with `--preview`.
     ```bash
