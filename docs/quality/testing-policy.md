@@ -33,8 +33,8 @@ Coverage is counted per function, from the test list. Line coverage (gcov) needs
 in ESP-IDF and does not run on QEMU. On the linux target the test app is a host executable, so gcov
 could run in CI: not set up yet.
 
-Status on 2026-10-20: 4 of 14 critical functions tested (`light_seq_start`, `light_seq_step`, `light_seq_request_stop`,
-`led_pwm_set_levels`).
+Status on 2026-10-28: 5 of 14 critical functions tested (`light_seq_start`, `light_seq_step`, `light_seq_request_stop`,
+`led_pwm_set_levels`, `light_control_validate_command`).
 
 ## Conventions
 
