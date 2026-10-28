@@ -44,7 +44,11 @@ The [examples](examples/) show the default wiring.
 4. Edit LIGHT_PLAYER_PWM_GPIO_* values for your usage.
 5. Build and flash.
     ```bash
-    idf.py build flash
+    # Build
+    idf.py build
+
+    # Flash (with your board connected via USB)
+    idf.py -p PORT flash
     ```
 
 `--preview` is only needed for targets ESP-IDF still lists as preview, such as the ESP32-S31.
