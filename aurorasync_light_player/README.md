@@ -84,7 +84,11 @@ idf.py build
     ```
 5. Build, flash and watch the logs.
     ```bash
-    idf.py --preview build flash monitor
+    # Build
+    idf.py --preview build
+
+    # Flash and monitor (with your board connected via USB)
+    idf.py --preview -p PORT flash monitor
     ```
 
 # Maintainers
