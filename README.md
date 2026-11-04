@@ -52,3 +52,15 @@ idf.py add-dependency aurorasynclabs/aurorasync_light_player
 |:----------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------:|
 
 </div>
+
+## Contributors
+
+Thanks to everyone who contributed to the project!
+
+<div align="center">
+
+[![Contributors](https://contrib.rocks/image?repo=AuroraSyncLabs/LightPlayer)](https://github.com/AuroraSyncLabs/LightPlayer/graphs/contributors)
+
+Made with [contrib.rocks](https://contrib.rocks).
+
+</div>
