@@ -154,7 +154,7 @@ an example when you add a feature.
 ### Checks
 
 CI runs on every pull request (`.github/workflows/ci.yml`): formatting, `idf.py clang-check`,
-unit tests on QEMU and linux, and the example builds. From `aurorasync_light_player/`:
+a secret scan, unit tests on QEMU and linux, and the example builds. From `aurorasync_light_player/`:
 
 ```shell
 # Formatting, pinned version through uv (https://docs.astral.sh/uv/)
@@ -164,6 +164,15 @@ cd examples/rampup_hold_rampdown && IDF_TOOLCHAIN=clang idf.py set-target esp32c
   && idf.py clang-check --include-paths "$(realpath ../..)" \
      --run-clang-tidy-options "-header-filter=aurorasync_light_player/"
 ```
+
+The secret scan runs [gitleaks](https://github.com/gitleaks/gitleaks) 8.30.1 on the whole history, from the repository root:
+
+```shell
+gitleaks git --redact -v
+```
+
+A false positive goes to `.gitleaksignore` by its fingerprint. A real secret must be revoked:
+removing the commit does not make it secret again.
 
 Unit tests live in `test/test_<module>.c` (`TEST_CASE("<behavior>", "[<module>]")`) and run
 through `test_apps/` with [pytest](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/esp-idf-tests-with-pytest.html)
