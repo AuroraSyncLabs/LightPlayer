@@ -30,8 +30,15 @@ Testing effort goes there first. The other 17 public functions are setters and h
 - **Whole public API: 80% (25 of 31 functions).** The remaining setters only copy fields and are covered through the tests above.
 
 Coverage is counted per function, from the test list. Line coverage (gcov) needs JTAG on a real board
-in ESP-IDF and does not run on QEMU. On the linux target the test app is a host executable, so gcov
-could run in CI: not set up yet.
+in ESP-IDF and does not run on QEMU. On the linux target the test app is a host executable built with
+`--coverage`: the `Unit tests (linux)` CI job prints the line and function coverage of `src/` and uploads
+the HTML and Cobertura reports (`coverage-linux` artifact). It cannot see `src/light_player.c` (no `esp_timer`
+on linux, counted at 0%) and `src/port/esp/` (not built on linux). No threshold blocks the merge yet: one is
+set once the critical path tests are in.
+
+First figure on 2026-11-04, commit `6eda6b1` (local run, GCC 16.2, gcovr 8.8): 66.8% of lines (314 of 470),
+72.1% of functions (49 of 68). 9 of the 14 critical path functions run, directly or through another one:
+`light_control_apply_command`, `light_control_encode_state` and the three `light_player_*` functions do not.
 
 Status on 2026-10-28: 5 of 14 critical functions tested (`light_seq_start`, `light_seq_step`, `light_seq_request_stop`,
 `led_pwm_set_levels`, `light_control_validate_command`).
