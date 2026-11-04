@@ -33,10 +33,6 @@ void setUp(void)
     active = off;
 }
 
-void tearDown(void)
-{
-}
-
 /** Build a one-shot sequence going from the current state to red. */
 static light_seq_t one_segment_to_red(uint32_t duration_ms)
 {
