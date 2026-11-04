@@ -154,7 +154,8 @@ an example when you add a feature.
 ### Checks
 
 CI runs on every pull request (`.github/workflows/ci.yml`): formatting, `idf.py clang-check`,
-a secret scan, unit tests on QEMU and linux, and the example builds. From `aurorasync_light_player/`:
+a secret scan, unit tests on QEMU and linux, line coverage on linux, and the example builds.
+From `aurorasync_light_player/`:
 
 ```shell
 # Formatting, pinned version through uv (https://docs.astral.sh/uv/)
@@ -183,6 +184,8 @@ through `test_apps/` with [pytest](https://docs.espressif.com/projects/esp-idf/e
 idf-ci build run -p test_apps -t esp32c3 -m qemu && pytest -m qemu --target esp32c3
 # Linux, as in CI (needs a host gcc)
 idf-ci build run -p test_apps -t linux -m host_test && pytest -m host_test --target linux
+# Line coverage, after the linux tests
+uvx gcovr==8.8 --filter src/ --print-summary test_apps
 # Board
 idf-ci build run -p test_apps -t esp32c6 -m generic && pytest -m generic --target esp32c6
 ```

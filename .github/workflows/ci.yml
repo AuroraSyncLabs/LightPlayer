@@ -103,6 +103,20 @@ jobs:
         with:
           name: unit-test-report-${{ matrix.target }}
           path: aurorasync_light_player/report.xml
+      - name: Measure the coverage
+        if: matrix.target == 'linux'
+        working-directory: aurorasync_light_player
+        run: |
+          note="src/light_player.c (esp_timer) and src/port/esp/ (LEDC driver) never run on linux"
+          mkdir coverage
+          uvx gcovr==8.8 --filter src/ --txt --print-summary --html-title "Linux unit tests: $note" \
+            --html-details coverage/index.html --cobertura coverage/coverage.xml test_apps
+          echo "$note"
+      - uses: actions/upload-artifact@v4
+        if: matrix.target == 'linux'
+        with:
+          name: coverage-linux
+          path: aurorasync_light_player/coverage/
 
   build:
     name: Build ${{ matrix.example }} (IDF ${{ matrix.idf }})
