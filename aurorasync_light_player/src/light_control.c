@@ -459,6 +459,10 @@ int light_control_validate_command(const uint8_t *command, uint16_t len)
 {
     if (len == 0)
         return -EMSGSIZE;
+
+    if (command == NULL)
+        return -EINVAL;
+
     switch (command[0])
     {
     case LIGHT_CMD_SET_MASTER:
