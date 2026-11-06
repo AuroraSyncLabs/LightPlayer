@@ -1,7 +1,7 @@
 /*
 ** test_light_control.c
 ** File description:
-** Unit tests for light control command validation
+** Unit tests of the light control API
 */
 
 #include <errno.h>
@@ -9,7 +9,26 @@
 #include <stdint.h>
 #include <unity.h>
 
+#include <lightplayer/led_pwm.h>
 #include <lightplayer/light_control.h>
+
+#define LIT(channel) (1U << (channel))
+#define RGB_STRIP                                                                                  \
+    (LIT(LED_PWM_CHANNEL_RGB_RED) | LIT(LED_PWM_CHANNEL_RGB_GREEN) | LIT(LED_PWM_CHANNEL_RGB_BLUE))
+#define ALL_CHANNELS (LIT(LED_PWM_CHANNEL_COUNT) - 1U)
+
+/** The three ways to render a state: global color-accurate, global max-brightness, per-strip. */
+static const struct
+{
+    bool global_mode;
+    light_mix_policy_t policy;
+} modes[] = {
+    {true, LIGHT_MIX_POLICY_COLOR_ACCURATE},
+    {true, LIGHT_MIX_POLICY_MAX_BRIGHTNESS},
+    {false, LIGHT_MIX_POLICY_COLOR_ACCURATE},
+};
+
+#define MODE_COUNT (sizeof(modes) / sizeof(modes[0]))
 
 /** Return a state from light_control_init(): global mode, every color at 255. */
 static light_state_t init_state(void)
@@ -35,6 +54,55 @@ static void assert_same_mode_and_colors(const light_state_t *expected, const lig
     TEST_ASSERT_EQUAL_MEMORY(&expected->rgb_strip, &actual->rgb_strip, sizeof(actual->rgb_strip));
     TEST_ASSERT_EQUAL_UINT8(expected->flamewarm_brightness, actual->flamewarm_brightness);
     TEST_ASSERT_EQUAL_UINT8(expected->skyblue_brightness, actual->skyblue_brightness);
+}
+
+/** Return a lit state in global mode, at full brightness. */
+static light_state_t global_state(light_mix_policy_t policy, uint8_t r, uint8_t g, uint8_t b)
+{
+    return (light_state_t){
+        .master_on = true, .global_mode = true, .mix_policy = policy, .global = {255, r, g, b}};
+}
+
+static light_output_frame_t render(const light_state_t *state)
+{
+    light_output_frame_t frame;
+
+    TEST_ASSERT_EQUAL_INT(0, light_control_render(state, &frame));
+    return frame;
+}
+
+/** Assert that the channels in lit, a mask of LIT() bits, are the only ones on. */
+static void assert_lit(light_state_t state, unsigned lit)
+{
+    const light_output_frame_t frame = render(&state);
+
+    for (int ch = 0; ch < LED_PWM_CHANNEL_COUNT; ch++)
+    {
+        if (lit & LIT(ch))
+            TEST_ASSERT_GREATER_THAN_UINT16(0, frame.levels[ch]);
+        else
+            TEST_ASSERT_EQUAL_UINT16(0, frame.levels[ch]);
+    }
+}
+
+/** Assert that no level decreases while every brightness of the state rises from 0 to 255. */
+static void assert_brightness_monotonic(light_state_t state)
+{
+    light_output_frame_t previous = {0};
+
+    for (int brightness = 0; brightness <= UINT8_MAX; brightness++)
+    {
+        light_output_frame_t frame;
+
+        state.global.brightness = brightness;
+        state.rgb_strip.brightness = brightness;
+        state.flamewarm_brightness = brightness;
+        state.skyblue_brightness = brightness;
+        frame = render(&state);
+        for (int ch = 0; ch < LED_PWM_CHANNEL_COUNT; ch++)
+            TEST_ASSERT_GREATER_OR_EQUAL_UINT16(previous.levels[ch], frame.levels[ch]);
+        previous = frame;
+    }
 }
 
 TEST_CASE("empty command is rejected", "[light_control]")
@@ -278,4 +346,94 @@ TEST_CASE("each field is encoded at its offset", "[light_control]")
 
     TEST_ASSERT_EQUAL_INT(0, light_control_encode_state(&state, payload));
     TEST_ASSERT_EQUAL_HEX8_ARRAY(expected, payload, LIGHT_STATE_PAYLOAD_SIZE);
+}
+
+TEST_CASE("render and apply frame reject NULL arguments", "[light_control]")
+{
+    light_state_t state = init_state();
+    light_output_frame_t frame;
+
+    TEST_ASSERT_EQUAL_INT(-EINVAL, light_control_render(NULL, &frame));
+    TEST_ASSERT_EQUAL_INT(-EINVAL, light_control_render(&state, NULL));
+    TEST_ASSERT_EQUAL_INT(-EINVAL, light_control_apply_frame(NULL));
+}
+
+TEST_CASE("master off renders every level at 0", "[light_control]")
+{
+    light_state_t state = init_state();
+
+    assert_lit(state, 0);
+    state.global_mode = false;
+    assert_lit(state, 0);
+}
+
+TEST_CASE("full white stays below the maximum level", "[light_control]")
+{
+    light_state_t state = init_state();
+    light_output_frame_t frame;
+
+    state.master_on = true;
+    for (size_t m = 0; m < MODE_COUNT; m++)
+    {
+        state.global_mode = modes[m].global_mode;
+        state.mix_policy = modes[m].policy;
+        frame = render(&state);
+        for (int ch = 0; ch < LED_PWM_CHANNEL_COUNT; ch++)
+            TEST_ASSERT_LESS_THAN_UINT16(LED_PWM_LEVEL_MAX, frame.levels[ch]);
+    }
+}
+
+TEST_CASE("per-strip mode lights only the strips set", "[light_control]")
+{
+    assert_lit((light_state_t){.master_on = true, .flamewarm_brightness = 255},
+               LIT(LED_PWM_CHANNEL_FLAME_WARM));
+    assert_lit((light_state_t){.master_on = true, .skyblue_brightness = 255},
+               LIT(LED_PWM_CHANNEL_SKY_BLUE));
+    assert_lit((light_state_t){.master_on = true, .rgb_strip = {255, 255, 255, 255}}, RGB_STRIP);
+}
+
+TEST_CASE("color-accurate mode adds FlameWarm to red and SkyBlue to blue", "[light_control]")
+{
+    assert_lit(global_state(LIGHT_MIX_POLICY_COLOR_ACCURATE, 255, 255, 255), RGB_STRIP);
+    assert_lit(global_state(LIGHT_MIX_POLICY_COLOR_ACCURATE, 255, 0, 0),
+               LIT(LED_PWM_CHANNEL_RGB_RED) | LIT(LED_PWM_CHANNEL_FLAME_WARM));
+    assert_lit(global_state(LIGHT_MIX_POLICY_COLOR_ACCURATE, 0, 0, 255),
+               LIT(LED_PWM_CHANNEL_RGB_BLUE) | LIT(LED_PWM_CHANNEL_SKY_BLUE));
+}
+
+TEST_CASE("max-brightness mode drives every channel of a color", "[light_control]")
+{
+    assert_lit(global_state(LIGHT_MIX_POLICY_MAX_BRIGHTNESS, 255, 0, 0),
+               LIT(LED_PWM_CHANNEL_RGB_RED) | LIT(LED_PWM_CHANNEL_FLAME_WARM));
+    assert_lit(global_state(LIGHT_MIX_POLICY_MAX_BRIGHTNESS, 255, 255, 255), ALL_CHANNELS);
+}
+
+TEST_CASE("higher brightness never lowers a level", "[light_control]")
+{
+    /* Two close components make the color-accurate boosts dip by rounding: not tested. */
+    const light_rgb_state_t colors[] = {{0, 255, 255, 255}, {0, 255, 0, 0}, {0, 0, 0, 128}};
+    light_state_t state = init_state();
+
+    state.master_on = true;
+    for (size_t m = 0; m < MODE_COUNT; m++)
+    {
+        state.global_mode = modes[m].global_mode;
+        state.mix_policy = modes[m].policy;
+        for (size_t c = 0; c < sizeof(colors) / sizeof(colors[0]); c++)
+        {
+            state.global = colors[c];
+            state.rgb_strip = colors[c];
+            assert_brightness_monotonic(state);
+        }
+    }
+}
+
+TEST_CASE("applied frame reads back from the LEDs", "[light_control]")
+{
+    const light_output_frame_t frame = {{1, 1000, 32768, 50000, 65534}};
+    led_pwm_level_t levels[LED_PWM_CHANNEL_COUNT];
+
+    TEST_ASSERT_EQUAL_INT(0, light_control_apply_frame(&frame));
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_get_levels(levels));
+    TEST_ASSERT_EQUAL_UINT16_ARRAY(frame.levels, levels, LED_PWM_CHANNEL_COUNT);
 }
