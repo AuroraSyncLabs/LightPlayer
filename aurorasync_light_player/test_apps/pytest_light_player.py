@@ -3,17 +3,22 @@ import pytest
 from pytest_embedded_idf.dut import IdfDut
 from pytest_embedded_idf.utils import idf_parametrize
 
+# Needs a fresh app, before the other cases initialize the light player.
+BEFORE_INIT_CASE = 'schedule and cancel log an error before init'
+
 
 @pytest.mark.generic
 @idf_parametrize('target', ['esp32c6'], indirect=['target'])
 def test_light_player(dut: IdfDut) -> None:
     dut.run_all_single_board_cases()
+    dut.run_single_board_case(BEFORE_INIT_CASE, reset=True)
 
 
 @pytest.mark.qemu
 @idf_parametrize('target', ['esp32c3'], indirect=['target'])
 def test_light_player_qemu(dut: IdfDut) -> None:
     dut.run_all_single_board_cases()
+    dut.run_single_board_case(BEFORE_INIT_CASE, reset=True)
 
 
 @pytest.mark.host_test

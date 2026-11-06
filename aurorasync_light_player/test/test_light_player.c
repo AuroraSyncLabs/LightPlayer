@@ -10,7 +10,11 @@
 #if !CONFIG_IDF_TARGET_LINUX
 
 #include <limits.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
+#include <esp_log.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <unity.h>
@@ -27,6 +31,7 @@ test_player_t test_player;
 
 static light_player_step_fn_t forwarded_step;
 static int steps_to_continue;
+static char log_text[256];
 
 static bool record_step(int64_t now_ms)
 {
@@ -55,6 +60,27 @@ static bool continue_n_times(int64_t now_ms)
 {
     (void)now_ms;
     return test_player.calls <= steps_to_continue;
+}
+
+static int capture_log(const char *format, va_list args)
+{
+    size_t len = strlen(log_text);
+
+    return vsnprintf(log_text + len, sizeof(log_text) - len, format, args);
+}
+
+/* Regression test for #4. Needs a fresh app: pytest runs it alone, after a reset. */
+TEST_CASE("schedule and cancel log an error before init", "[light_player][ignore]")
+{
+    vprintf_like_t console = esp_log_set_vprintf(capture_log);
+
+    light_player_schedule();
+    light_player_cancel();
+    esp_log_set_vprintf(console);
+    TEST_ASSERT_NOT_NULL(
+        strstr(log_text, "light_player_schedule() called before light_player_module_init()"));
+    TEST_ASSERT_NOT_NULL(
+        strstr(log_text, "light_player_cancel() called before light_player_module_init()"));
 }
 
 TEST_CASE("schedule runs the step within a few ticks", "[light_player]")
