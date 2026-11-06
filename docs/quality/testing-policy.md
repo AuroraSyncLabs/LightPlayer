@@ -40,8 +40,7 @@ First figure on 2026-11-04, commit `6eda6b1` (local run, GCC 16.2, gcovr 8.8): 6
 72.1% of functions (49 of 68). 9 of the 14 critical path functions run, directly or through another one:
 `light_control_apply_command`, `light_control_encode_state` and the three `light_player_*` functions do not.
 
-Status on 2026-10-28: 5 of 14 critical functions tested (`light_seq_start`, `light_seq_step`, `light_seq_request_stop`,
-`led_pwm_set_levels`, `light_control_validate_command`).
+Status on 2026-11-06: the 14 critical functions are tested.
 
 ## Conventions
 
@@ -51,4 +50,8 @@ Status on 2026-10-28: 5 of 14 critical functions tested (`light_seq_start`, `lig
 - A bug fix starts with a test that fails before the fix; the case is logged as a regression.
 - Every test runs on QEMU and linux. A test calling `light_player_*` (`esp_timer`) or checking the LEDC
   driver is guarded with `#if !CONFIG_IDF_TARGET_LINUX`, after `#include <sdkconfig.h>`.
+- `light_player_module_init()` runs once per app: tests driving the player go through `test_player_setup()`
+  (`test/test_light_player.h`).
+- A case needing a fresh app is tagged `[ignore]`, so `run_all_single_board_cases()` skips it, and run alone after
+  a reset in `test_apps/pytest_light_player.py`.
 - CI runs every test on each pull request; a red test blocks the merge.

@@ -60,3 +60,24 @@ TEST_CASE("get levels rejects a NULL array", "[led_pwm]")
 {
     TEST_ASSERT_EQUAL_INT(-EINVAL, led_pwm_get_levels(NULL));
 }
+
+TEST_CASE("init switches every channel off", "[led_pwm]")
+{
+    const led_pwm_level_t expected[LED_PWM_CHANNEL_COUNT] = {0};
+    led_pwm_level_t levels[LED_PWM_CHANNEL_COUNT];
+
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_set_levels(frame));
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_init());
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_get_levels(levels));
+    TEST_ASSERT_EQUAL_UINT16_ARRAY(expected, levels, LED_PWM_CHANNEL_COUNT);
+}
+
+TEST_CASE("outputs stay usable after a second init", "[led_pwm]")
+{
+    led_pwm_level_t levels[LED_PWM_CHANNEL_COUNT];
+
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_init());
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_set_levels(frame));
+    TEST_ASSERT_EQUAL_INT(0, led_pwm_get_levels(levels));
+    TEST_ASSERT_EQUAL_UINT16_ARRAY(frame, levels, LED_PWM_CHANNEL_COUNT);
+}
