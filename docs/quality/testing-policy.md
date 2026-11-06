@@ -40,9 +40,7 @@ First figure on 2026-11-04, commit `6eda6b1` (local run, GCC 16.2, gcovr 8.8): 6
 72.1% of functions (49 of 68). 9 of the 14 critical path functions run, directly or through another one:
 `light_control_apply_command`, `light_control_encode_state` and the three `light_player_*` functions do not.
 
-Status on 2026-11-06: 11 of 14 critical functions tested (`light_seq_start`, `light_seq_step`, `light_seq_request_stop`,
-`led_pwm_set_levels`, `light_control_validate_command`, `light_control_apply_command`, `light_control_encode_state`,
-`ease_apply`, `light_player_module_init`, `light_player_schedule`, `light_player_cancel`).
+Status on 2026-11-06: the 14 critical functions are tested.
 
 ## Conventions
 
