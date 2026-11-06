@@ -303,6 +303,18 @@ TEST_CASE("master and policy commands keep the mode and the colors", "[light_con
     }
 }
 
+TEST_CASE("unknown opcode leaves the state unchanged", "[light_control]")
+{
+    const uint8_t command[] = {0xFF, 1, 2, 3, 4};
+    light_state_t state = init_state();
+    const light_state_t before = state;
+
+    light_control_apply_command(&state, command);
+    TEST_ASSERT_EQUAL(before.master_on, state.master_on);
+    TEST_ASSERT_EQUAL(before.mix_policy, state.mix_policy);
+    assert_same_mode_and_colors(&before, &state);
+}
+
 TEST_CASE("encode state rejects NULL arguments", "[light_control]")
 {
     light_state_t state = init_state();
